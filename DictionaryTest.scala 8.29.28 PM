@@ -1,0 +1,50 @@
+package cryptograms
+
+import org.scalatest._
+
+class DictionaryTest extends FunSuite{
+  
+  val Dictionary = new Dictionary(List("THE", "THAT", "WHAT", "SAYS", "DOGS", "CATS",
+  		"SHARKS", "KELP", "PILLOWS", "PENS", "PAPER", "BOOK", "DON'T", "CAN'T"))
+    
+  test("is Self Coding") {
+    assert(Dictionary.isSelfCoding("A", "A"))
+    assert(!Dictionary.isSelfCoding("A", "B"))
+    assert(!Dictionary.isSelfCoding("ABABABA", "DCDCDCD"))
+    assert(Dictionary.isSelfCoding("ARK", "ALB"))
+    assert(Dictionary.isSelfCoding("AR'K", "AL'B"))
+    assert(!Dictionary.isSelfCoding("A'BABABA", "D'CDCDCD"))
+    assert(!Dictionary.isSelfCoding("A-BABABA", "D-CDCDCD"))
+    assert(!Dictionary.isSelfCoding("A-BAB'ABA", "D-CDCD'CD"))
+  }
+
+  test("Does the Pattern Match") {
+    assert(Dictionary.doesPatternMatch("A", "A"))
+    assert(Dictionary.doesPatternMatch("A", "B"))
+    assert(Dictionary.doesPatternMatch("ABABABA", "DCDCDCD"))
+    assert(Dictionary.doesPatternMatch("ARK", "ALB"))
+    assert(Dictionary.doesPatternMatch("THAT", "SAYS"))
+    assert(!Dictionary.doesPatternMatch("WHAT", "BOOK"))
+    assert(!Dictionary.doesPatternMatch("WHAT", "BOK"))    
+    assert(Dictionary.doesPatternMatch("CAN'T", "BAL'K"))
+    assert(!Dictionary.doesPatternMatch("CA'NT", "BAL'K"))    
+    
+  }
+  
+    test("Valid with current code") {
+    assert(Dictionary.isValidWithCode("BALK", "DXQZ", "*D*B**********************"))
+    assert(Dictionary.isValidWithCode("BALK", "DXQZ", "**************************"))
+    assert(!Dictionary.isValidWithCode("BALK", "DXQZ", "*X*C**********************")) 
+    assert(!Dictionary.isValidWithCode("BALK", "DXQZ", "*************************Z")) 
+    assert(Dictionary.isValidWithCode("B'ALK", "D'XQZ", "*D*B**********************"))        
+    }
+
+    //tested with a small dictionary
+    test("dictionary Searching") {
+    assert(Dictionary.search("THE", "**************************").isEmpty)
+    assert(Dictionary.search("SAYS", "**************************").forall(x => (x == "THAT")))
+    assert(Dictionary.search("QXYZ", "**************************").forall(x => (x == "DOGS" || x == "CATS" || x == "PENS" || x == "KELP" || x == "WHAT")))
+    assert(Dictionary.search("QXYS", "**************************").forall(x => (x == "KELP" || x == "WHAT")))
+    assert(Dictionary.search("QXY'S", "**************************").forall(x => (x == "CAN'T" || x == "DON'T")))
+    }
+}

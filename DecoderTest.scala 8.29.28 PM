@@ -1,0 +1,27 @@
+package cryptograms
+import org.scalatest._
+
+class DecoderTest extends FunSuite {
+
+  test("encode") {
+    assert(Decoder.encode("My Dog Sam", "BCDEFGHIJKLMNOPQRSTUVWXYZA") ==
+      "NZ EPH TBN")
+    assert(Decoder.encode("M^)()(y Do#$%^g S!!am>>", "zyxwvutsrqmonplkjihgfedcba") == 
+      "N^)()(B WL#$%^T H!!ZN>>") 
+  }
+  
+  test("Decode Method") {
+    assert(Decoder.decode("NB WLT HZN", "zyxwvutsrqmonplkjihgfedcba") == "MY DOG SAM")
+    assert(Decoder.decode("N^)()(B WL#$%^T H!!ZN>>", "zyxwvutsrqmonplkjihgfedcba") == 
+      "M^)()(Y DO#$%^G S!!AM>>")
+    assert(Decoder.decode("HK PSB WMH", "mnopqabcdefghrstuvwxyzijkl") == "MY DOG SAM")
+    assert(Decoder.decode("HK PSB WMH", "mnopqabcdefg*rstuvwxyzijkl") == "*Y DOG SA*")    
+    assert(Decoder.decode("", "zyxwvutsrqmonplkjihgfedcba") == 
+      "")       
+    assert(Decoder.decode("N'B WLT HZN", "zyxwvutsrqmonplkjihgfedcba") == "M'Y DOG SAM")          
+  }  
+}
+
+
+
+

@@ -1,0 +1,21 @@
+package cryptograms
+
+import org.scalatest._
+
+class QuoteTest extends FunSuite{
+  test("Removing Punctiation") {
+    
+    val test1 = new Quote("All things considered, life is 9 to 5 against #$% ")
+    assert(test1.temp == List("All things considered life is to against"))
+
+  }
+  
+  test("Ordering the String") {
+    
+    val test3 = new Quote("All things considered, life is 9 to 5 against")
+    assert(test3.quote == List("CONSIDERED", "AGAINST", "THINGS", "LIFE", "ALL", "TO", "IS"))
+  }  
+
+
+
+}
